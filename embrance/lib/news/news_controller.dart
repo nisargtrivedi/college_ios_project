@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -21,8 +22,9 @@ class NewsController extends GetxController{
 
   @override
   void onInit() {
-    loadLatestNews();
     super.onInit();
+    loadLatestNews();
+    //Timer.periodic(Duration(seconds: 20), (Timer t) => loadLatestNews());
   }
 
   void loadLatestNews() async {

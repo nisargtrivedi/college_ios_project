@@ -68,7 +68,7 @@ class ProfileController extends GetxController{
       user.write('username', userData.response.user.name);
       user.write('userID', userData.response.user.alumnusId);
       loadProfile();
-      Get.toNamed(AppRoutes.DASHBOARD_ROUTE);
+      Get.offAllNamed(AppRoutes.DASHBOARD_ROUTE,);
     }
 
   }
@@ -136,7 +136,7 @@ class ProfileController extends GetxController{
       phone.text = "";
       enroll_year.value = "";
       Util.showMessage(context, "New user successfully register.If you are current student need to wait for admin approval.");
-      Get.toNamed(AppRoutes.LOGIN_ROUTE);
+      Get.offAllNamed(AppRoutes.LOGIN_ROUTE,);
     }else{
       Util.showMessage(context, "Server issue , please contact admin person.");
 

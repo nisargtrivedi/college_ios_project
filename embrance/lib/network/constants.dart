@@ -13,4 +13,5 @@ class Constant{
   static String JOBS_DETAILS_CATEGORY=BASE_URL+"getalljobcategory";
   static String GET_ALL_COURSE = BASE_URL +"getcourse";
   static String GET_ALL_SCOLARSHIP = BASE_URL +"getallscholarship";
+  static String GET_ALL_EVENTS = BASE_URL +"getallevent";
 }

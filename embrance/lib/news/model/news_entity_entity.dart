@@ -27,7 +27,7 @@ class NewsEntityArticles {
 	late String title;
 	late String description;
 	late String url;
-	late String urlToImage;
+	String urlToImage="https://demofree.sirv.com/products/123456/123456.jpg?profile=error-example";
 	late String publishedAt;
 
 	NewsEntityArticles();

@@ -31,7 +31,16 @@ class NewsView extends GetView<NewsController>{
                 color: Colors.green,
                 height: 50,
                 alignment: Alignment.center,
-                child: Text("News Feed",textAlign: TextAlign.center,style: TextStyle(color: Colors.white,fontSize: 18)),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8.0,right: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("News Feed",textAlign: TextAlign.center,style: TextStyle(color: Colors.white,fontSize: 18)),
+                      InkWell(onTap: ()=> controller.loadLatestNews(),child: Icon(Icons.refresh,color: Colors.white,)),
+                    ],
+                  ),
+                ),
               ),
               SizedBox(height: 10,),
               Container(
@@ -74,7 +83,7 @@ class NewsView extends GetView<NewsController>{
                             child: ClipRRect(borderRadius: BorderRadius.circular(10.0)
                               ,child: CachedNetworkImage(
                                 fit: BoxFit.cover,
-                                imageUrl:controller.useProfile.articles[index].urlToImage,
+                                imageUrl:controller.useProfile.articles[index].urlToImage==null?"https://demofree.sirv.com/products/123456/123456.jpg?profile=error-example":controller.useProfile.articles[index].urlToImage,
                                 placeholder: (context, url) => Icon(Icons.downloading),
                                 errorWidget: (context, url, error) => Icon(Icons.error),
                               ),
@@ -131,7 +140,7 @@ class NewsView extends GetView<NewsController>{
                                         alignment: Alignment.center,
                                         height: 130,
                                         fit: BoxFit.cover,
-                                        imageUrl:controller.latestArticles.articles[index].urlToImage,
+                                        imageUrl:controller.latestArticles.articles[index].urlToImage==null ? "https://demofree.sirv.com/products/123456/123456.jpg?profile=error-example":controller.latestArticles.articles[index].urlToImage,
                                         placeholder: (context, url) => const Icon(Icons.downloading),
                                         errorWidget: (context, url, error) => Icon(Icons.error),
                                       )

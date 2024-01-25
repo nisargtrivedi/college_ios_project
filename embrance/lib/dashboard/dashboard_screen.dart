@@ -15,7 +15,7 @@ class DashboardView extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<DashboardController>(init:DashboardController(),builder: (controller){
+    return GetBuilder<DashboardController>(init: Get.put<DashboardController>(DashboardController()),builder: (controller){
       return Scaffold(
         body: SafeArea(
           child: IndexedStack(
