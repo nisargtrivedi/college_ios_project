@@ -62,15 +62,10 @@ NewsEntityArticles $NewsEntityArticlesFromJson(Map<String, dynamic> json) {
   if (url != null) {
     newsEntityArticles.url = url;
   }
-  if(json['urlToImage']!=null) {
-    final String? urlToImage = jsonConvert.convert<String>(json['urlToImage']);
-    if (urlToImage != null) {
-      newsEntityArticles.urlToImage = urlToImage;
-    }
-  }else {
-    newsEntityArticles.urlToImage = "https://upload.wikimedia.org/wikipedia/commons/f/f8/No-image-available-4X3.png";
+  final String? urlToImage = jsonConvert.convert<String>(json['urlToImage']);
+  if (urlToImage != null) {
+    newsEntityArticles.urlToImage = urlToImage;
   }
-
   final String? publishedAt = jsonConvert.convert<String>(json['publishedAt']);
   if (publishedAt != null) {
     newsEntityArticles.publishedAt = publishedAt;

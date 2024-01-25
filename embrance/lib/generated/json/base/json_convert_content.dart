@@ -6,8 +6,12 @@
 import 'package:flutter/material.dart' show debugPrint;
 import 'package:embrance/home/alumni_connect/model/alumni_response_entity.dart';
 import 'package:embrance/home/alumni_connect/model/message_chat_entity.dart';
+import 'package:embrance/jobs/job_details_entity.dart';
+import 'package:embrance/jobs/jobs_entity.dart';
 import 'package:embrance/news/model/news_entity_entity.dart';
 import 'package:embrance/profile/login/login_response_entity.dart';
+import 'package:embrance/profile/model/course_entity.dart';
+import 'package:embrance/scholarship/model/scholarship_entity.dart';
 
 JsonConvert jsonConvert = JsonConvert();
 
@@ -139,6 +143,14 @@ class JsonConvert {
       return data.map<MessageChatEntity>((Map<String, dynamic> e) =>
           MessageChatEntity.fromJson(e)).toList() as M;
     }
+    if (<JobDetailsEntity>[] is M) {
+      return data.map<JobDetailsEntity>((Map<String, dynamic> e) =>
+          JobDetailsEntity.fromJson(e)).toList() as M;
+    }
+    if (<JobsEntity>[] is M) {
+      return data.map<JobsEntity>((Map<String, dynamic> e) =>
+          JobsEntity.fromJson(e)).toList() as M;
+    }
     if (<NewsEntityEntity>[] is M) {
       return data.map<NewsEntityEntity>((Map<String, dynamic> e) =>
           NewsEntityEntity.fromJson(e)).toList() as M;
@@ -158,6 +170,14 @@ class JsonConvert {
     if (<LoginResponseResponseUser>[] is M) {
       return data.map<LoginResponseResponseUser>((Map<String, dynamic> e) =>
           LoginResponseResponseUser.fromJson(e)).toList() as M;
+    }
+    if (<CourseEntity>[] is M) {
+      return data.map<CourseEntity>((Map<String, dynamic> e) =>
+          CourseEntity.fromJson(e)).toList() as M;
+    }
+    if (<ScholarshipEntity>[] is M) {
+      return data.map<ScholarshipEntity>((Map<String, dynamic> e) =>
+          ScholarshipEntity.fromJson(e)).toList() as M;
     }
 
     debugPrint("$M not found");
@@ -182,11 +202,15 @@ class JsonConvertClassCollection {
   Map<String, JsonConvertFunction> convertFuncMap = {
     (AlumniResponseEntity).toString(): AlumniResponseEntity.fromJson,
     (MessageChatEntity).toString(): MessageChatEntity.fromJson,
+    (JobDetailsEntity).toString(): JobDetailsEntity.fromJson,
+    (JobsEntity).toString(): JobsEntity.fromJson,
     (NewsEntityEntity).toString(): NewsEntityEntity.fromJson,
     (NewsEntityArticles).toString(): NewsEntityArticles.fromJson,
     (LoginResponseEntity).toString(): LoginResponseEntity.fromJson,
     (LoginResponseResponse).toString(): LoginResponseResponse.fromJson,
     (LoginResponseResponseUser).toString(): LoginResponseResponseUser.fromJson,
+    (CourseEntity).toString(): CourseEntity.fromJson,
+    (ScholarshipEntity).toString(): ScholarshipEntity.fromJson,
   };
 
   bool containsKey(String type) {

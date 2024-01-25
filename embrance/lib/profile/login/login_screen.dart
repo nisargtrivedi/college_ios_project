@@ -1,3 +1,4 @@
+import 'package:embrance/component/pageroute.dart';
 import 'package:embrance/profile/profile_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -115,7 +116,7 @@ class LoginView extends StatelessWidget {
                         height: 50,
                         child: Obx(
                           () => controller.isDataLoading.value
-                              ? const CircularProgressIndicator()
+                              ? SizedBox(width:50,height:50,child: const CircularProgressIndicator())
                               : MaterialButton(
                                   onPressed: () {
                                       if (controller.email.text.isEmpty){
@@ -146,11 +147,18 @@ class LoginView extends StatelessWidget {
                           Text("Don’t have an account? ",
                               style:
                                   TextStyle(color: Colors.white, fontSize: 18)),
-                          Text("Sign Up",
-                              style: TextStyle(
-                                  color: Colors.green,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold)),
+                          InkWell(
+                            onTap: (){
+                              controller.email.clear();
+                              controller.password.clear();
+                              Get.toNamed(AppRoutes.REGISTRATION_ROUTE);
+                              },
+                            child: Text("Sign Up",
+                                style: TextStyle(
+                                    color: Colors.green,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold)),
+                          ),
                         ],
                       )
                     ],

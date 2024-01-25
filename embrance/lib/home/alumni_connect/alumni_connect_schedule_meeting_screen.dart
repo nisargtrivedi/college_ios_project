@@ -1,8 +1,7 @@
 import 'dart:math';
 
 import 'package:date_picker_timeline/date_picker_widget.dart';
-import 'package:embrance/home/alumni_connect/model/alumni_response_entity.dart';
-import 'package:embrance/network/constants.dart';
+import 'package:embrance/component/util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -63,7 +62,8 @@ class AlumniConnectMeetingView extends StatelessWidget {
                             selectedTextColor: Colors.white,
                             onDateChange: (date) {
                               // New date selected
-                              print(date);
+                              controller.selectedDate.value = "${date.day}-${date.month}-${date.year}";
+                              print("${date.day}-${date.month}-${date.year}");
                             },
                           ),
                         ),
@@ -129,9 +129,10 @@ class AlumniConnectMeetingView extends StatelessWidget {
                               color: Colors.black, fontWeight: FontWeight.bold),
                         ),
                       ),
-                      const Padding(
+                      Padding(
                         padding: EdgeInsets.all(8.0),
                         child: TextField(
+                          controller: controller.msgController,
                           decoration: InputDecoration(
                               enabledBorder: OutlineInputBorder(
                                 borderSide:
@@ -143,14 +144,18 @@ class AlumniConnectMeetingView extends StatelessWidget {
                               )),
                           keyboardType: TextInputType.multiline,
                           minLines: 1, //Normal textInputField will be displayed
-                          maxLines:
-                              5, // when user presses enter it will adapt to it
+                          maxLines: 5, // when user presses enter it will adapt to it
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 10.0,top:20,right: 10.0),
                         child: MaterialButton(onPressed: (){
 
+                          if(controller.msgController.text.isEmpty){
+                            Util.showMessage(context, "Please enter meeting notes");
+                          }else{
+                            controller.saveMeeting(controller.data.aluId);
+                          }
                         },child: const Text("Save",style: TextStyle(fontSize: 18),),elevation: 10,color: Colors.green,textColor: Colors.white,height: 50,minWidth: width,),
                       ),
                     ],
@@ -191,7 +196,6 @@ class AlumniConnectMeetingView extends StatelessWidget {
   bottomPicker(AlumniController controller,BuildContext context,double height){
     showModalBottomSheet(context: context, builder: (BuildContext context){
         return SizedBox(
-          height: height/3,
           child: Column(
             children: [
               Align(
@@ -208,7 +212,7 @@ class AlumniConnectMeetingView extends StatelessWidget {
                       minutes: DateTime.now().minute,),
                   onTimerDurationChanged: (value) {
                     controller.selectedTime.value = "${value.toString().substring(0,5)}";
-                    print(value.toString());
+                    print(value.toString().substring(0,5));
                   }),
             ],
           ),

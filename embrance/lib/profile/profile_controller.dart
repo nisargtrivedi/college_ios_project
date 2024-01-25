@@ -11,19 +11,35 @@ import '../home/alumni_connect/model/alumni_response_entity.dart';
 import '../network/RestAPI.dart';
 import '../network/SocketConnection.dart';
 import '../network/constants.dart';
+import 'model/course_entity.dart';
 
 class ProfileController extends GetxController{
   final SocketConnection socketConnection = Get.find<SocketConnection>();
   final RestAPI restAPI = Get.find<RestAPI>();
   TextEditingController email = TextEditingController();
+  TextEditingController firstName = TextEditingController();
+  TextEditingController lastName = TextEditingController();
+  TextEditingController phone = TextEditingController();
+  TextEditingController companyName = TextEditingController();
+  TextEditingController skills = TextEditingController();
+  var course = "".obs;
+  var alumni_student = "".obs;
+  var enroll_year = "".obs;
   TextEditingController password = TextEditingController();
+  List<String> typelist = ["Alumni","Student"];
+  List<String> aluenrollmentYear = ["2004-2008","2008-2012","2012-2016","2016-2020","2020-2024"];
+  List<String> currentenrollmentYear = ["2020-2024"];
+
+
   var isDataLoading = false.obs;
   List<AlumniResponseEntity> useProfile = <AlumniResponseEntity>[].obs;
+  List<CourseEntity> courseList = <CourseEntity>[].obs;
   final user = GetStorage();
 
   @override
   void onInit() {
     if(user.hasData("userID")) loadProfileData();
+    loadCourse();
     super.onInit();
   }
   void loadProfileData(){
@@ -44,6 +60,8 @@ class ProfileController extends GetxController{
 
     if(userData.response.status==404){
       Util.showMessage(context, "Email or Password is wrong");
+    }else if(userData.response.status==401){
+      Util.showMessage(context, "Your account is not approved yet.Please contact admin person.");
     }else {
       print("RESPONSE IS\n"+userData.response.user.name);
 
@@ -69,6 +87,21 @@ class ProfileController extends GetxController{
     }
   }
 
+  void loadCourse() async {
+      var header = { "accept": "application/json"};
+      isDataLoading.value = true;
+      String response = await restAPI.getDataMethod(
+          Constant.GET_ALL_COURSE, header);
+      print("COURSE RESPONSE IS" + response);
+      var data = json.decode(response);
+      courseList = data.map<CourseEntity>((json) =>
+          CourseEntity.fromJson(json)).toList();
+      isDataLoading.value = false;
+
+
+  }
+
+
   void removeData(){
     user.remove("username");
     user.remove("userID");
@@ -77,4 +110,40 @@ class ProfileController extends GetxController{
     // Get.reset();
     // Get.toNamed(AppRoutes.LOGIN_ROUTE);
   }
+
+  void registrationAPI(BuildContext context) async {
+
+    isDataLoading.value = true;
+    FormData formData = FormData({
+      'email': email.text,
+      'password': password.text,
+      'firstname': firstName.text,
+      'lastname': lastName.text,
+      'course': course.value,
+      'phone': phone.text,
+      'batch': enroll_year.value,
+    });
+    String response = await restAPI.postDataMethod(Constant.REGISTRATION,formData);
+   // var data =json.decode(response);
+    print("--------------------------"+response);
+    isDataLoading.value = false;
+    if(response=="true") {
+      email.text = "";
+      password.text = "";
+      firstName.text = "";
+      lastName.text = "";
+      course.value = "";
+      phone.text = "";
+      enroll_year.value = "";
+      Util.showMessage(context, "New user successfully register.If you are current student need to wait for admin approval.");
+      Get.toNamed(AppRoutes.LOGIN_ROUTE);
+    }else{
+      Util.showMessage(context, "Server issue , please contact admin person.");
+
+    }
+
+
+
+  }
+
 }

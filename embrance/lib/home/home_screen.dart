@@ -26,8 +26,7 @@ class HomeView extends GetView<DashboardController> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  height: (height * 10) / 100,
-                  width: width,
+                     width: width,
                   decoration: BoxDecoration(
                       color: Colors.green,
                       border: Border.all(
@@ -56,14 +55,14 @@ class HomeView extends GetView<DashboardController> {
                     children: [
                       listItem("Job Discovery","assets/images/job_seeker.png","Alumni Connect","assets/images/alumni_connect.png",
                               (){
-                          Get.toNamed(AppRoutes.DASHBOARD_ROUTE+AppRoutes.SENIOR_CONNECT_ROUTE);
+                          Get.toNamed(AppRoutes.DASHBOARD_ROUTE+AppRoutes.JOBS_ROUTE);
                       } ,(){
                         Get.toNamed(AppRoutes.DASHBOARD_ROUTE+AppRoutes.ALUMNI_CONNECT_ROUTE,arguments: 2);
                       }),
                       listItem("Senior Connect","assets/images/connect_senior.png","Scholarship Search","assets/images/scholarship.png",(){
                         Get.toNamed(AppRoutes.DASHBOARD_ROUTE+AppRoutes.ALUMNI_CONNECT_ROUTE,arguments: 1);
                       },(){
-                        Get.toNamed(AppRoutes.DASHBOARD_ROUTE+AppRoutes.SENIOR_CONNECT_ROUTE);
+                        Get.toNamed(AppRoutes.DASHBOARD_ROUTE+AppRoutes.SCHOLARSHIP_ROUTE);
                       }),
                       listItemTwo("News Feed", "assets/images/news_feed.png",(){
                         controller.selectedBottomBarTabIndex(1);
