@@ -3,7 +3,6 @@ import 'package:embrance/home/alumni_connect/alumni_connect_detail_screen.dart';
 import 'package:embrance/home/alumni_connect/alumni_connect_schedule_meeting_screen.dart';
 import 'package:embrance/home/alumni_connect/alumni_connect_screen.dart';
 import 'package:embrance/home/home_screen.dart';
-import 'package:embrance/jobs/jobs_detail_screen.dart';
 import 'package:embrance/jobs/jobs_screen.dart';
 import 'package:embrance/news/news_screen.dart';
 import 'package:embrance/notifications/notification_screen.dart';
@@ -16,6 +15,8 @@ import 'package:get/get.dart';
 
 import '../home/alumni_connect/alumni_connect_chat_screen.dart';
 import '../jobs/jobs_extra_detail_screen.dart';
+import '../jobs/road_map_detail_screen.dart';
+import '../jobs/road_map_screen.dart';
 import '../news/news_detail_screen.dart';
 
 class AppRoutes{
@@ -32,6 +33,8 @@ class AppRoutes{
 
   static String SENIOR_CONNECT_ROUTE = "/senior_connect";
   static String ALUMNI_CONNECT_ROUTE = "/alumni_connect";
+  static String ROADMAP_ROUTE = "/roadmap_connect";
+  static String ROADMAP_ROUTE_DETAIL = "/roadmap_connect_detail";
   static String ALUMNI_DETAIL_ROUTE = "/alumni_detail";
   static String ALUMNI_CONNECT_SCHEDULE_ROUTE = "/alumni_schedule";
   static String ALUMNI_CONNECT_CHAT_ROUTE = "/alumni_chat";
@@ -76,16 +79,21 @@ class AppRoutes{
           transitionDuration: duration,
           children: [
             GetPage(
-                name: JOBS_DETAIL_ROUTE,
-                page: () => JobDetailView(),
+                name: JOBS_DETAIL_DETAIL_ROUTE,
+                page: () => JobExtraDetailView(),
                 transitionDuration: duration,
-              children: [
-                GetPage(
-                    name: JOBS_DETAIL_DETAIL_ROUTE,
-                    page: () => JobExtraDetailView(),
-                    transitionDuration: duration,
-                )
-              ]
+              children:
+                [
+                  GetPage(
+                      name: ROADMAP_ROUTE,
+                      page: () => RoadMapView(),
+                      transitionDuration: duration,
+                    children: [
+                      GetPage(name: ROADMAP_ROUTE_DETAIL, page: () => RoadMapDetailView(),transitionDuration: duration,)
+                    ]
+
+                  ),
+                ]
             )
           ]
         ),

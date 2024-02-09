@@ -14,7 +14,7 @@ class JobsController extends GetxController{
   ScrollController scrollController = ScrollController();
 
   final RestAPI restAPI = Get.find<RestAPI>();
-  List<JobsEntity> jobs = <JobsEntity>[].obs;
+  List<JobDetailsEntity> jobs = <JobDetailsEntity>[].obs;
   List<JobDetailsEntity> jobsDetails = <JobDetailsEntity>[].obs;
   var isDataLoading = false.obs;
 
@@ -30,7 +30,8 @@ class JobsController extends GetxController{
       String response = await restAPI.getDataMethod(Constant.JOBS_CATEGORY, header);
       print("JOBS RESPONSE IS"+response.toString());
         var data = jsonDecode(response);
-      jobs = data.map<JobsEntity>((json) => JobsEntity.fromJson(json)).toList();
+      jobs = data.map<JobDetailsEntity>((json) => JobDetailsEntity.fromJson(json)).toList();
+      jobs.shuffle();
       isDataLoading.value = false;
   }
 

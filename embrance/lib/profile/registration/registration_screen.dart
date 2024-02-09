@@ -276,7 +276,7 @@ class RegistrationView extends StatelessWidget {
 
 
                        Text(
-                        "Course",
+                        "Interested Course",
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 14,

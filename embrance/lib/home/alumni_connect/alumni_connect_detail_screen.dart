@@ -66,13 +66,12 @@ class AlumniConnectDetailView extends StatelessWidget {
                           commonData("Company",data.connectedTo.isEmpty?"Details not found":data.connectedTo),
                           SizedBox(height: 10,),
                           commonData("Skills",data.skills),
-
                         ],
                       ),
                     ),
                   ),
                 ),
-                Padding(
+                (controller.userType()=="2" || controller.userType()=="3")?Container(): Padding(
                   padding: const EdgeInsets.only(left: 30.0,right: 30.0),
                   child: MaterialButton(onPressed: (){
                     Get.toNamed(AppRoutes.DASHBOARD_ROUTE+AppRoutes.ALUMNI_CONNECT_ROUTE+AppRoutes.ALUMNI_CONNECT_SCHEDULE_ROUTE,arguments: data);

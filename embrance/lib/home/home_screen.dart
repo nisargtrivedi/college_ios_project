@@ -2,6 +2,7 @@
 import 'package:embrance/dashboard/dashboard_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../component/home_menu_box_decoration.dart';
 import '../component/pageroute.dart';
@@ -18,6 +19,7 @@ class HomeView extends GetView<DashboardController> {
         .of(context)
         .size
         .width;
+    print("TYPE---------------------------------"+controller.userType());
 
     return Scaffold(
         body: Padding(
@@ -59,13 +61,24 @@ class HomeView extends GetView<DashboardController> {
                       } ,(){
                         Get.toNamed(AppRoutes.DASHBOARD_ROUTE+AppRoutes.ALUMNI_CONNECT_ROUTE,arguments: 2);
                       }),
-                      listItem("Senior Connect","assets/images/connect_senior.png","Scholarship Search","assets/images/scholarship.png",(){
+                      listItem((controller.userType()=="1")?"Senior Connect":"Junior Connect","assets/images/connect_senior.png","Scholarship Search","assets/images/scholarship.png",(){
                         Get.toNamed(AppRoutes.DASHBOARD_ROUTE+AppRoutes.ALUMNI_CONNECT_ROUTE,arguments: 1);
                       },(){
                         Get.toNamed(AppRoutes.DASHBOARD_ROUTE+AppRoutes.SCHOLARSHIP_ROUTE);
                       }),
-                      listItemTwo("News Feed", "assets/images/news_feed.png",(){
+                      listItem("News Feed", "assets/images/news_feed.png","Library","assets/images/library.jpeg",(){
                         controller.selectedBottomBarTabIndex(1);
+                      },(){
+                        final Uri url = Uri.parse("https://library.csus.edu/");
+                        launchUrl(url);
+                      }),
+
+                      listItem("The Well", "assets/images/th_well.jpeg","Campus Safety","assets/images/campus.jpeg",(){
+                        final Uri url = Uri.parse("https://thewellatsacstate.com/");
+                        launchUrl(url);
+                      },(){
+                        final Uri url = Uri.parse("https://www.csus.edu/campus-safety/");
+                        launchUrl(url);
                       })
 
                     ],
@@ -95,7 +108,7 @@ class HomeView extends GetView<DashboardController> {
                       decoration: getMenuDecoration(),
                       child: Column(
                         children: [
-                          ClipRRect(borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0),topRight: Radius.circular(10.0)),child: Image(image: AssetImage(imagePathOne,),fit: BoxFit.fill)),
+                          ClipRRect(borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0),topRight: Radius.circular(10.0)),child: Image(image: AssetImage(imagePathOne,),fit: BoxFit.fill,)),
                           Padding(
                             padding: EdgeInsets.only(top:5.0,bottom: 5.0),
                             child: Text(menuOne,style: TextStyle(color: Colors.white),),

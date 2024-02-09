@@ -14,4 +14,5 @@ class ChatMessage{
   Map<String, Object> toMap(){
     return {'sender':sender,'receiver': receiver,'messageContent': messageContent,'messageType': messageType,'timeChat': timeChat.toString()};
   }
+
 }

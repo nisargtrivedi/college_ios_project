@@ -53,5 +53,9 @@
          <string>sms</string>
               <string>tel</string>
     </array>
+    <key>NSAllowsArbitraryLoads</key>
+        <true/>
+        <key>NSAllowsArbitraryLoadsInWebContent</key>
+        <true/>
 </dict>
 </plist>

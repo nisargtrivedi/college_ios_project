@@ -35,6 +35,10 @@ class SocketConnection{
           messageType: "receiver",timeChat: DateTime.now()));
 
       if(AlumniChatController.isScreenVisible) AlumniChatController.scrollController.jumpTo(0);
+
+      if(AlumniController.isScreenVisible.value){
+        Get.find<AlumniController>().onInit();
+      }
     });
 
     socket.on('receive_invitation', (data) {
@@ -57,7 +61,7 @@ class SocketConnection{
     };
     if(!socket.connected){
       socket.connect();
-      Future.delayed(2000.seconds,(){
+      Future.delayed(10.seconds,(){
         connect(senderID);
       });
     }

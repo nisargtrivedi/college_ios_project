@@ -15,7 +15,7 @@ class DashboardController extends GetxController{
   void onInit() {
     if(user.read("username")!=null) {
       userName.value = user.read("username");
-      socketConnection.connect(user.read("userID"));
+      //socketConnection.connect(user.read("userID"));
     }
     print("CALLED");
     super.onInit();
@@ -26,6 +26,9 @@ class DashboardController extends GetxController{
     update();
   }
 
+  String userType(){
+    return user.read("user_type");
+  }
 
 
 

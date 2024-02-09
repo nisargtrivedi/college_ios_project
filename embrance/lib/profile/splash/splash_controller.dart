@@ -13,7 +13,12 @@ class SplashController extends GetxController{
 
       Future.delayed(const Duration(milliseconds: 1000), () {
         //Navigator.of(context, rootNavigator: true).pop();
-        Get.offAllNamed(AppRoutes.DASHBOARD_ROUTE,);
+        if(user.read("user_type")=="3"){
+          Get.offAllNamed(AppRoutes.DASHBOARD_ROUTE+AppRoutes.ALUMNI_CONNECT_ROUTE,arguments: 1);
+        }else{
+          Get.offAllNamed(AppRoutes.DASHBOARD_ROUTE,);
+        }
+
       });
 
       

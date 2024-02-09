@@ -1,6 +1,7 @@
 import 'package:embrance/component/pageroute.dart';
 import 'package:embrance/home/alumni_connect/model/alumni_response_entity.dart';
 import 'package:embrance/network/constants.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'alumni_controller.dart';
@@ -20,13 +21,25 @@ class AlumniConnectView extends StatelessWidget {
         .size
         .width;
 
+
     return GetBuilder<AlumniController>(init: Get.put<AlumniController>(AlumniController()),builder: (controller){
+      print("length is ${controller.filterList.obs.value.length}");
           return Scaffold(
             backgroundColor: Colors.white,
-          appBar: AppBar(backgroundColor: Colors.green,title: Text(controller.pageName == 2 ? "Alumni Connect":"Senior Connect",style: TextStyle(color: Colors.white),),leading: IconButton(
+          appBar: AppBar(backgroundColor: Colors.green,title: Text(controller.pageName == 2 ? "Alumni Connect":(controller.userType()=="1")?"Senior Connect":"Junior Connect",style: TextStyle(color: Colors.white),),leading: IconButton(
             icon: const Icon(Icons.arrow_back,color: Colors.white),
             onPressed: () => Get.back(),
-          ),),
+          ),actions: [
+           controller.userType()=="3"? InkWell(
+              onTap: (){
+                Get.toNamed("/profile");
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(right: 10.0),
+                child: const Icon(CupertinoIcons.profile_circled,color: Colors.white),
+              ),
+            ):Container(),
+          ]),
           body: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Obx(
@@ -63,16 +76,16 @@ class AlumniConnectView extends StatelessWidget {
             ),
           ),
           SizedBox(height: 20,),
-          Expanded(
+          controller.filterList.obs.value.isEmpty? Center(child: Text("No Chat messages found.")):Expanded(
               child: ListView.builder(
                   itemCount: controller.filterList.obs.value.length,
                   itemBuilder: (context, index) {
-                    return listItem(controller.filterList.obs.value[index],width);
+                    return  listItem(controller.filterList.obs.value[index],width,controller);
                   })
           )
         ]);
   }
-  listItem(AlumniResponseEntity data, double width) {
+  listItem(AlumniResponseEntity data, double width,AlumniController controller) {
     return InkWell(
       onTap: (){
         Get.toNamed(AppRoutes.DASHBOARD_ROUTE+AppRoutes.ALUMNI_CONNECT_ROUTE+AppRoutes.ALUMNI_DETAIL_ROUTE,arguments: data);
@@ -99,6 +112,7 @@ class AlumniConnectView extends StatelessWidget {
                     Get.toNamed(AppRoutes.DASHBOARD_ROUTE+AppRoutes.ALUMNI_CONNECT_ROUTE+AppRoutes.ALUMNI_CONNECT_CHAT_ROUTE,arguments: data);
                   },child: Icon(Icons.message_outlined,color: Colors.black,)),
                   SizedBox(width: 10,),
+                  (controller.userType()=="2" || controller.userType()=="3")?Container():
                   InkWell(onTap:(){
                     Get.toNamed(AppRoutes.DASHBOARD_ROUTE+AppRoutes.ALUMNI_CONNECT_ROUTE+AppRoutes.ALUMNI_CONNECT_SCHEDULE_ROUTE,arguments: data,);
                   },child: Icon(Icons.calendar_month_outlined,color: Colors.black,))

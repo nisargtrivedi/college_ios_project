@@ -28,7 +28,7 @@ class ProfileController extends GetxController{
   TextEditingController password = TextEditingController();
   List<String> typelist = ["Alumni","Student"];
   List<String> aluenrollmentYear = ["2004-2008","2008-2012","2012-2016","2016-2020","2020-2024"];
-  List<String> currentenrollmentYear = ["2020-2024"];
+  List<String> currentenrollmentYear = ["2024-2028"];
 
 
   var isDataLoading = false.obs;
@@ -64,13 +64,43 @@ class ProfileController extends GetxController{
       Util.showMessage(context, "Your account is not approved yet.Please contact admin person.");
     }else {
       print("RESPONSE IS\n"+userData.response.user.name);
+      socketConnection.connect(userData.response.user.alumnusId);
+      var userTypes = userData.response.user.batch.split("-");
+      var type ="";
+      if(userTypes[0]=="2024"){
+        type="1";  //CURRENT USER
+      }
+      else if(userTypes[0]=="2020"){
+        type="2"; // SENIOR USER
+      }else{
+        type="3"; // ALUMNI
+      }
 
       user.write('username', userData.response.user.name);
       user.write('userID', userData.response.user.alumnusId);
+      user.write('user_type', type);
+      user.write('gender', userData.response.user.gender);
+      user.write('batch', userData.response.user.batch);
+
       loadProfile();
-      Get.offAllNamed(AppRoutes.DASHBOARD_ROUTE,);
+      if(type=="3"){
+          Future.delayed(3.seconds,(){
+            Get.offAllNamed(AppRoutes.DASHBOARD_ROUTE+AppRoutes.ALUMNI_CONNECT_ROUTE,arguments: 1);
+          });
+      }if(userData.response.user.gender=="Male"){
+        Future.delayed(3.seconds,(){
+          Get.offAllNamed(AppRoutes.DASHBOARD_ROUTE+AppRoutes.ALUMNI_CONNECT_ROUTE,arguments: 1);
+        });
+      }else{
+        Get.offAllNamed(AppRoutes.DASHBOARD_ROUTE,);
+      }
+
     }
 
+  }
+
+  String userType(){
+    return user.read("user_type");
   }
 
   void loadProfile() async {

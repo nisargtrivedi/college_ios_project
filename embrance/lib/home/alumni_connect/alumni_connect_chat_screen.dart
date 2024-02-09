@@ -1,13 +1,12 @@
 import 'dart:convert';
 
-import 'package:embrance/home/alumni_connect/model/alumni_response_entity.dart';
+
 import 'package:embrance/network/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import 'alumni_chat_controller.dart';
-import 'alumni_controller.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 

@@ -43,6 +43,12 @@ class SqliteService {
     return queryResult.map((e) => ChatMessage.fromMap(e)).toList();
   }
 
+  Future<List<ChatMessage>> getChatUsers(String currentUser) async {
+    final db = await initializeDB();
+    final List<Map<String, Object?>> queryResult = await db.rawQuery("select * from chats where (sender=${currentUser} or receiver=${currentUser})");
+    return queryResult.map((e) => ChatMessage.fromMap(e)).toList();
+  }
+
   Future<List<MeetingModel>> getMeetingItems(String currentUser) async {
     final db = await initializeDB();
     final List<Map<String, Object?>> queryResult = await db.query('meetings', where: " receiver=${currentUser}",orderBy: "id desc");
