@@ -64,7 +64,7 @@ class NotificationView extends GetView<NotificationController>{
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            (NotificationController.meetingList[index].senderName!="Admin")? Text("You have an Invitation for the meeting on ${NotificationController.meetingList[index].meetingDate} at ${NotificationController.meetingList[index].meetingTime} from ${NotificationController.meetingList[index].senderName}.",style: TextStyle(color: Colors.black87,fontSize: 16,fontWeight: FontWeight.bold),):
+                            (NotificationController.meetingList[index].senderName!="Admin")? Text("You have ${(NotificationController.meetingList[index].sender==controller.user.read("userID"))?"sent an invitation for the meeting on ${NotificationController.meetingList[index].meetingDate} at ${NotificationController.meetingList[index].meetingTime}":"received notification for the meeting on ${NotificationController.meetingList[index].meetingDate} at ${NotificationController.meetingList[index].meetingTime} from ${NotificationController.meetingList[index].senderName}."} ",style: TextStyle(color: Colors.black87,fontSize: 16,fontWeight: FontWeight.bold),):
                                 Text("You received the message from Admin related to ${NotificationController.meetingList[index].meetingMode.replaceAll("+", " ")} on ${NotificationController.meetingList[index].meetingDate.replaceAll("+", " ")}",style: TextStyle(color: Colors.black87,fontSize: 16,fontWeight: FontWeight.bold),),
                           ],
                         ),

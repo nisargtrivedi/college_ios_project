@@ -18,14 +18,6 @@ class AlumniConnectChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery
-        .of(context)
-        .size
-        .height;
-    double width = MediaQuery
-        .of(context)
-        .size
-        .width;
 
     return GetBuilder<AlumniChatController>(init: Get.put<AlumniChatController>(AlumniChatController()),builder: (controller){
       return Scaffold(
@@ -77,39 +69,44 @@ class AlumniConnectChatScreen extends StatelessWidget {
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.only(bottom: 70.0),
-                  child: Obx(
-                    ()=> ListView.builder(
-                      reverse: true,
-                      controller: AlumniChatController.scrollController,
-                      scrollDirection: Axis.vertical,
-                      itemCount: AlumniChatController.messages.obs.value.length,
-                      shrinkWrap: true,
-                      padding: EdgeInsets.only(top: 10,bottom: 10),
-                      physics: BouncingScrollPhysics(),
-                      itemBuilder: (context, index){
-                        return Container(
-                            padding: EdgeInsets.only(left: 14,right: 14,top: 10,bottom: 10),
-                            child: Align(
-                              alignment: (AlumniChatController.messages.obs.value[index].messageType == "receiver"?Alignment.topLeft:Alignment.topRight),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: (AlumniChatController.messages.obs.value[index].messageType  == "receiver"?Colors.grey.shade200:Colors.green),
-                                ),
-                                padding: EdgeInsets.all(16),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(AlumniChatController.messages.obs.value[index].messageContent,textAlign: TextAlign.start, style: TextStyle(fontSize: 15,color: (AlumniChatController.messages.obs.value[index].messageType  == "receiver"?Colors.black:Colors.white)),),
-                                    SizedBox(height: 5,),
-                                    Text(timeago.format(AlumniChatController.messages.obs.value[index].timeChat),textAlign: TextAlign.end,style: TextStyle(fontSize: 12,color: (AlumniChatController.messages.obs.value[index].messageType  == "receiver"?Colors.black:Colors.white)),),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          );
-                      },
+                  child: Container(
+                    child: Obx(
+                      ()=>AlumniChatController.messages.obs.value.length==0?Container(): Container(
+                          child: ListView.builder(
+                            reverse: true,
+                            controller: AlumniChatController.scrollController,
+                            scrollDirection: Axis.vertical,
+                            itemCount: AlumniChatController.messages.obs.value.length,
+                            shrinkWrap: true,
+                            padding: EdgeInsets.only(top: 10,bottom: 10),
+                            physics: BouncingScrollPhysics(),
+                            itemBuilder: (context, index){
+                              return Container(
+                                  padding: EdgeInsets.only(left: 14,right: 14,top: 10,bottom: 10),
+                                  child: Align(
+                                    alignment: (AlumniChatController.messages.obs.value[index].messageType == "receiver"?Alignment.topLeft:Alignment.topRight),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: (AlumniChatController.messages.obs.value[index].messageType  == "receiver"?Colors.grey.shade200:Colors.green),
+                                      ),
+                                      padding: EdgeInsets.all(16),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Text(AlumniChatController.messages.obs.value[index].messageContent,textAlign: TextAlign.start, style: TextStyle(fontSize: 15,color: (AlumniChatController.messages.obs.value[index].messageType  == "receiver"?Colors.black:Colors.white)),),
+                                          SizedBox(height: 5,),
+                                          Text(timeago.format(AlumniChatController.messages.obs.value[index].timeChat),textAlign: TextAlign.end,style: TextStyle(fontSize: 12,color: (AlumniChatController.messages.obs.value[index].messageType  == "receiver"?Colors.black:Colors.white)),),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                );
+                            },
+                          ),
+                        ),
                     ),
+
                   ),
                 ),
                 Align(

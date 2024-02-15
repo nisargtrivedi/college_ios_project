@@ -25,16 +25,19 @@ class ProfileController extends GetxController{
   var course = "".obs;
   var alumni_student = "".obs;
   var enroll_year = "".obs;
+  var isVerfied= false.obs;
   TextEditingController password = TextEditingController();
+  TextEditingController re_password = TextEditingController();
   List<String> typelist = ["Alumni","Student"];
   List<String> aluenrollmentYear = ["2004-2008","2008-2012","2012-2016","2016-2020","2020-2024"];
   List<String> currentenrollmentYear = ["2024-2028"];
 
 
   var isDataLoading = false.obs;
-  List<AlumniResponseEntity> useProfile = <AlumniResponseEntity>[].obs;
+  List<AlumniResponseEntity> useProfile = <AlumniResponseEntity>[];
   List<CourseEntity> courseList = <CourseEntity>[].obs;
   final user = GetStorage();
+
 
   @override
   void onInit() {
@@ -64,7 +67,10 @@ class ProfileController extends GetxController{
       Util.showMessage(context, "Your account is not approved yet.Please contact admin person.");
     }else {
       print("RESPONSE IS\n"+userData.response.user.name);
-      socketConnection.connect(userData.response.user.alumnusId);
+
+      socketConnection.userJoin(userData.response.user.alumnusId);
+      //socketConnection.connect(userData.response.user.alumnusId);
+
       var userTypes = userData.response.user.batch.split("-");
       var type ="";
       if(userTypes[0]=="2024"){
@@ -82,13 +88,14 @@ class ProfileController extends GetxController{
       user.write('gender', userData.response.user.gender);
       user.write('batch', userData.response.user.batch);
 
+
       loadProfile();
       if(type=="3"){
-          Future.delayed(3.seconds,(){
+          Future.delayed(1.seconds,(){
             Get.offAllNamed(AppRoutes.DASHBOARD_ROUTE+AppRoutes.ALUMNI_CONNECT_ROUTE,arguments: 1);
           });
-      }if(userData.response.user.gender=="Male"){
-        Future.delayed(3.seconds,(){
+      }else if(userData.response.user.gender=="Male"){
+        Future.delayed(1.seconds,(){
           Get.offAllNamed(AppRoutes.DASHBOARD_ROUTE+AppRoutes.ALUMNI_CONNECT_ROUTE,arguments: 1);
         });
       }else{
@@ -98,6 +105,37 @@ class ProfileController extends GetxController{
     }
 
   }
+
+
+  void forgotPasswordAPI(BuildContext context) async {
+
+      isDataLoading.value = true;
+      FormData formData = FormData(isVerfied.value==false?{
+        'email': email.text,
+      }:{
+        'email': email.text,
+        'password': password.text,
+      });
+      String response = await restAPI.postDataMethod(isVerfied.value==false?Constant.FORGOT_PASSWORD:Constant.RESET_PASSWORD,formData);
+      // var data =json.decode(response);
+      print("--------------------------"+response);
+      isDataLoading.value = false;
+      if(response=="true" && isVerfied.value==false) {
+        Util.showMessage(context, "Email is verified now you can update your new password");
+        isVerfied.value = true;
+      }else if(response=="true" && isVerfied.value==true) {
+        email.text = "";
+        password.text = "";
+        re_password.text = "";
+        Util.showMessage(context, "Password reset successfully");
+        isVerfied.value = false;
+        Get.offAllNamed(AppRoutes.LOGIN_ROUTE,);
+      }else{
+        Util.showMessage(context, "Server issue , please contact admin person.");
+
+      }
+  }
+
 
   String userType(){
     return user.read("user_type");
@@ -133,9 +171,11 @@ class ProfileController extends GetxController{
 
 
   void removeData(){
+    socketConnection.leaveSocket(user.read("userID"));
+    socketConnection.disconnect();
     user.remove("username");
     user.remove("userID");
-    socketConnection.disconnect();
+    user.remove("UUID");
     Get.offAllNamed(AppRoutes.LOGIN_ROUTE,);
     // Get.reset();
     // Get.toNamed(AppRoutes.LOGIN_ROUTE);

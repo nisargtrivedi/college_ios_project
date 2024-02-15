@@ -18,6 +18,8 @@ import '../jobs/jobs_extra_detail_screen.dart';
 import '../jobs/road_map_detail_screen.dart';
 import '../jobs/road_map_screen.dart';
 import '../news/news_detail_screen.dart';
+import '../profile/forgot_password_screen.dart';
+
 
 class AppRoutes{
 
@@ -39,6 +41,10 @@ class AppRoutes{
   static String ALUMNI_CONNECT_SCHEDULE_ROUTE = "/alumni_schedule";
   static String ALUMNI_CONNECT_CHAT_ROUTE = "/alumni_chat";
   static String LOGIN_ROUTE = "/login";
+  static String FORGOT_PASSWORD_ROUTE = "/forgot_password";
+  static String RESET_PASSWORD_ROUTE = "/reset_password";
+
+
   static String REGISTRATION_ROUTE = "/registration";
   static String SPLASH_ROUTE = "/splash";
 
@@ -51,6 +57,15 @@ class AppRoutes{
       page: () => LoginView(),
       transitionDuration: duration,
     ),
+
+    GetPage(
+      name: FORGOT_PASSWORD_ROUTE,
+      page: () => ForgotPasswordView(),
+      transitionDuration: duration,
+    ),
+
+
+
 
     GetPage(
       name: REGISTRATION_ROUTE,

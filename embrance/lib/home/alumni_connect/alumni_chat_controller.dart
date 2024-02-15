@@ -32,10 +32,16 @@ class AlumniChatController extends GetxController{
 
   @override
   void onInit() {
+    // if(socketConnection.socket.disconnected){
+    //   socketConnection.socket.connect();
+    // }
+    // if(socketConnection.socket.connected) {
+    //   socketConnection.connect(user.read("userID"));
+    // }
     data = Get.arguments as AlumniResponseEntity;
     isScreenVisible= true;
-    loadOldChat();
     super.onInit();
+    loadOldChat();
   }
 
   void sendMessage(String receiverID){
@@ -57,7 +63,6 @@ class AlumniChatController extends GetxController{
   @override
   void onClose() {
     isScreenVisible= false;
-    print("called");
     super.onClose();
   }
 }

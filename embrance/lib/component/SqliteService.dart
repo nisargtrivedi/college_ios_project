@@ -51,7 +51,7 @@ class SqliteService {
 
   Future<List<MeetingModel>> getMeetingItems(String currentUser) async {
     final db = await initializeDB();
-    final List<Map<String, Object?>> queryResult = await db.query('meetings', where: " receiver=${currentUser}",orderBy: "id desc");
+    final List<Map<String, Object?>> queryResult = await db.query('meetings', where: " receiver=${currentUser} or sender=${currentUser}",orderBy: "id desc");
     return queryResult.map((e) => MeetingModel.fromMap(e)).toList();
   }
 }

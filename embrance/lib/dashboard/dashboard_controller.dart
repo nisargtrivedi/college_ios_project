@@ -15,12 +15,16 @@ class DashboardController extends GetxController{
   void onInit() {
     if(user.read("username")!=null) {
       userName.value = user.read("username");
-      //socketConnection.connect(user.read("userID"));
     }
     print("CALLED");
     super.onInit();
   }
 
+  // @override
+  // void onClose() {
+  //   socketConnection.leaveSocket(user.read("userID"));
+  //   super.onClose();
+  // }
   void selectedBottomBarTabIndex(int index){
     bottomTabIndex = index;
     update();

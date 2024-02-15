@@ -11,6 +11,8 @@ class Constant{
   static String LOGIN = BASE_URL+"login";
   static String PROFILE = BASE_URL+"getProfile";
   static String REGISTRATION=BASE_URL+"registration";
+  static String FORGOT_PASSWORD=BASE_URL+"forgot_password";
+  static String RESET_PASSWORD=BASE_URL+"reset_password";
   static String JOBS_CATEGORY=BASE_URL+"getjobcategory";
   static String JOBS_DETAILS_CATEGORY=BASE_URL+"getalljobcategory";
   static String GET_ALL_COURSE = BASE_URL +"getcourse";

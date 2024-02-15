@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:ffi';
 
+import 'package:embrance/home/alumni_connect/model/MeetingModel.dart';
 import 'package:embrance/network/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -10,6 +11,7 @@ import 'package:intl/intl.dart';
 import '../../component/SqliteService.dart';
 import '../../network/RestAPI.dart';
 import '../../network/SocketConnection.dart';
+import '../../notifications/notification_controller.dart';
 import 'model/ChatMessage.dart';
 import 'model/alumni_response_entity.dart';
 
@@ -41,7 +43,21 @@ class AlumniController extends GetxController{
 
   @override
   void onInit() {
-    if(Get.arguments!=null) {
+       // if(user.read("user_type")=="3" || user.read("gender")=="Male") {
+       //   if(socketConnection.socket.disconnected){
+       //     socketConnection.socket.connect();
+       //   }
+       //   if(socketConnection.socket.connected) {
+       //     socketConnection.connect(user.read("userID"));
+       //   }
+       // }
+       //  if(socketConnection.socket.connected) {
+       //        socketConnection.connect(user.read("userID"));
+       //  }
+       //
+
+
+        if(Get.arguments!=null) {
 
       if(Get.arguments is int) {
         pageName = Get.arguments as int;
@@ -55,7 +71,6 @@ class AlumniController extends GetxController{
     // if(userType()=="2") loadOldChat();
     loadOldChat();
     isScreenVisible.value = true;
-
       super.onInit();
   }
   void loadData(){
@@ -126,16 +141,19 @@ class AlumniController extends GetxController{
 
     void saveMeeting(String receiverID){
     socketConnection.sendMeetingNotes(message: msgController.text,receiverID: receiverID,senderID: user.read("userID"),mode: groupValue.value,selectDate: selectedDate.value,selectTime: selectedTime.value,senderName: user.read("username"));
-    msgController.clear();
+    NotificationController.chatDB.addNewInvitation(MeetingModel(sender: user.read("userID"), receiver: receiverID, messageContent: msgController.text, meetingMode: groupValue.value, meetingDate: selectedDate.value, meetingTime: selectedTime.value, senderName: user.read("username")));
+    //msgController.clear();
+      Get.back();
   }
 
   String userType(){
     return user.read("user_type");
   }
 
+
   @override
   void onClose() {
-    isScreenVisible.value = false;
+    isScreenVisible.value= false;
     super.onClose();
   }
 

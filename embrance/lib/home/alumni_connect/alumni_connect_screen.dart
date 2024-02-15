@@ -8,7 +8,7 @@ import 'alumni_controller.dart';
 
 
 
-class AlumniConnectView extends StatelessWidget {
+class   AlumniConnectView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
